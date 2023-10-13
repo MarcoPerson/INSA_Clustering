@@ -38,7 +38,7 @@ f1 = datanp[:,1] # tous les éléments de la deuxième colonne
 plt.scatter(f0, f1, s=8)
 plt.title("Donnees initiales : "+ str(name))
 #plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-init.jpg",bbox_inches='tight', pad_inches=0.1)
-plt.show()
+#plt.show()
 
 # Run clustering method for a given number of clusters
 print("------------------------------------------------------")
@@ -66,5 +66,57 @@ print("nb clusters =",k,", nb iter =",iteration, ", inertie = ",inertie, ", runt
 
 from sklearn.metrics.pairwise import euclidean_distances
 dists = euclidean_distances(centroids)
-print(dists)
+#print(dists)
 
+# 2-1
+# les scores de regroupement de chaque cluster
+from sklearn.metrics.pairwise import pairwise_distances
+clusters_distances = pairwise_distances(datanp, centroids)
+
+"""for i in range(k):
+    cluster_distances = clusters_distances[labels == i, i]
+    print("Cluster ", i, " :")
+    print("Min : ", np.min(cluster_distances))
+    print("Max : ", np.max(cluster_distances))
+    print("Mean : ", np.mean(cluster_distances))
+    print()
+
+# les scores de séparation entre les clusters
+print("Séparation des centres")
+print("Min : ", np.min(dists[dists>0]))
+print("Max : ", np.max(dists))
+print("Mean : ", np.mean(dists[dists>0]))
+print()"""
+
+# 2-1 et 2-2
+"""inertieTab = []
+for i in range(2, 42):
+    model = cluster.KMeans(n_clusters=i, init='k-means++', n_init=1)
+    model.fit(datanp)
+    inertieTab.append([i, model.inertia_])
+inertieTab = np.array(inertieTab)
+print(inertieTab)
+
+#plt.figure(figsize=(6, 6))
+plt.plot(inertieTab[:, 0],inertieTab[:, 1])
+plt.xticks(range(0, 42))
+#plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-cluster.jpg",bbox_inches='tight', pad_inches=0.1)
+plt.show()"""
+
+# 2-3
+silhouette_score = []
+ti = time.time()
+for i in range(2, 42):
+    model = cluster.KMeans(n_clusters=i, init='k-means++', n_init=1)
+    model.fit(datanp)
+    silhouette_score.append([i, metrics.silhouette_score(datanp, model.labels_)])
+tf= time.time()
+silhouette_score = np.array(silhouette_score)
+
+print("Total time : ", tf - ti)
+
+#plt.figure(figsize=(6, 6))
+plt.plot(silhouette_score[:, 0],silhouette_score[:, 1])
+plt.xticks(range(0, 42))
+#plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-cluster.jpg",bbox_inches='tight', pad_inches=0.1)
+plt.show()
