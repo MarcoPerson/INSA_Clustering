@@ -18,7 +18,7 @@ from sklearn import metrics
 # Exemple :  k-Means Clustering
 
 path = './artificial/'
-name="chainlink.arff"
+name="banana.arff"
 
 #path_out = './fig/'
 databrut = arff.loadarff(open(path+str(name), 'r'))
@@ -44,8 +44,8 @@ plt.show()
 print("------------------------------------------------------")
 print("Appel KMeans pour une valeur de k fixée")
 tps1 = time.time()
-k=4
-model = cluster.KMeans(n_clusters=k, init='k-means++', n_init=1)
+k=2
+model = cluster.MiniBatchKMeans(n_clusters=k, init='k-means++', n_init=1)
 model.fit(datanp)
 tps2 = time.time()
 labels = model.labels_
@@ -68,10 +68,10 @@ from sklearn.metrics.pairwise import euclidean_distances
 dists = euclidean_distances(centroids)
 #print(dists)
 
-
+"""
 # 2-1
 # les scores de regroupement de chaque cluster
-"""from sklearn.metrics.pairwise import pairwise_distances
+from sklearn.metrics.pairwise import pairwise_distances
 clusters_distances = pairwise_distances(datanp, centroids)
 
 
@@ -101,18 +101,16 @@ inertieTab = np.array(inertieTab)
 print(inertieTab)
 
 #plt.figure(figsize=(6, 6))
-plt.title("Evolution de l'inertie : "+ str(name))
 plt.plot(inertieTab[:, 0],inertieTab[:, 1])
 plt.xticks(range(0, 42))
 #plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-cluster.jpg",bbox_inches='tight', pad_inches=0.1)
 plt.show()"""
 
 # 2-3
-
 silhouette_score = []
 ti = time.time()
 for i in range(2, 42):
-    model = cluster.KMeans(n_clusters=i, init='k-means++', n_init=1)
+    model = cluster.MiniBatchKMeans(n_clusters=i, init='k-means++', n_init=1)
     model.fit(datanp)
     silhouette_score.append([i, metrics.silhouette_score(datanp, model.labels_)])
 tf= time.time()
@@ -121,7 +119,7 @@ silhouette_score = np.array(silhouette_score)
 print("Total time : ", tf - ti)
 
 #plt.figure(figsize=(6, 6))
-plt.title("Evolution du coefficient de silhouette : "+ str(name))
+
 plt.plot(silhouette_score[:, 0],silhouette_score[:, 1])
 plt.xticks(range(0, 42))
 plt.grid(visible=True)
@@ -132,9 +130,11 @@ plt.show()
 
 # 2-4
 # Chainlink Banana 3-Spiral
-# R15 diamond9
+# R15 2d-4c-no9 2d-4c
 
 # 2-5 
+# Nothing changed except the time reduced
+
 
 
 
