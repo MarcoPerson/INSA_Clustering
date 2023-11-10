@@ -13,7 +13,8 @@ from scipy.cluster.hierarchy import dendrogram
 
 
 path = './artificial/'
-name="banana.arff"
+name="disk-1000n.arff"
+k=2
 
 #path_out = './fig/'
 databrut = arff.loadarff(open(path+str(name), 'r'))
@@ -36,6 +37,7 @@ plt.title("Donnees initiales : "+ str(name))
 #plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-init.jpg",bbox_inches='tight', pad_inches=0.1)
 plt.show()
 
+"""
 #################################################
 from scipy.cluster.hierarchy import dendrogram
 
@@ -63,7 +65,7 @@ def plot_dendrogram(model, **kwargs):
 
 
 # setting distance_threshold=0 ensures we compute the full tree.
-model = cluster.AgglomerativeClustering(distance_threshold=0, linkage='ward', n_clusters=None)
+model = cluster.AgglomerativeClustering(distance_threshold=0, linkage='single', n_clusters=None)
 
 model = model.fit(datanp)
 plt.figure(figsize=(12, 12))
@@ -72,11 +74,9 @@ plt.title("Hierarchical Clustering Dendrogram")
 plot_dendrogram(model) #, truncate_mode="level", p=5)
 plt.xlabel("Number of points in node (or index of point if no parenthesis).")
 plt.show()
+"""
 
-
-
-
-
+"""
 ### FIXER la distance
 # 
 tps1 = time.time()
@@ -94,13 +94,12 @@ plt.title("Clustering agglomératif (average, distance_treshold= "+str(seuil_dis
 plt.show()
 print("nb clusters =",k,", nb feuilles = ", leaves, " runtime = ", round((tps2 - tps1)*1000,2),"ms")
 
-
+"""
 ###
 # FIXER le nombre de clusters
 ###
-k=3
 tps1 = time.time()
-model = cluster.AgglomerativeClustering(linkage='ward', n_clusters=k)
+model = cluster.AgglomerativeClustering(linkage='single', n_clusters=k)
 model = model.fit(datanp)
 tps2 = time.time()
 labels = model.labels_
@@ -112,11 +111,9 @@ leaves=model.n_leaves_
 #print(kres)
 
 plt.scatter(f0, f1, c=labels, s=8)
-plt.title("Clustering agglomératif (average, n_cluster= "+str(k)+") "+str(name))
+plt.title("Clustering agglomératif (single, n_cluster= "+str(k)+") "+str(name))
 plt.show()
 print("nb clusters =",kres,", nb feuilles = ", leaves, " runtime = ", round((tps2 - tps1)*1000,2),"ms")
 
 
-
 #######################################################################
-

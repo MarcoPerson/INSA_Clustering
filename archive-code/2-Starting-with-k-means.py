@@ -71,7 +71,7 @@ dists = euclidean_distances(centroids)
 
 # 2-1
 # les scores de regroupement de chaque cluster
-"""from sklearn.metrics.pairwise import pairwise_distances
+from sklearn.metrics.pairwise import pairwise_distances
 clusters_distances = pairwise_distances(datanp, centroids)
 
 
@@ -84,15 +84,15 @@ for i in range(k):
     print("Mean : ", np.mean(cluster_distances))
     print()
 
-# les scores de séparation entre les clusters
+# les scores de séparation des centres
 print("Séparation des centres")
 print("Min : ", np.min(dists[dists>0]))
 print("Max : ", np.max(dists))
 print("Mean : ", np.mean(dists[dists>0]))
-print()"""
+print()
 
 # 2-1 et 2-2
-"""inertieTab = []
+inertieTab = []
 for i in range(2, 42):
     model = cluster.KMeans(n_clusters=i, init='k-means++', n_init=1)
     model.fit(datanp)
@@ -105,7 +105,7 @@ plt.title("Evolution de l'inertie : "+ str(name))
 plt.plot(inertieTab[:, 0],inertieTab[:, 1])
 plt.xticks(range(0, 42))
 #plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-cluster.jpg",bbox_inches='tight', pad_inches=0.1)
-plt.show()"""
+plt.show()
 
 # 2-3
 
@@ -133,8 +133,6 @@ plt.show()
 # 2-4
 # Chainlink Banana 3-Spiral
 # R15 diamond9
-
-# 2-5 
 
 
 

@@ -12,7 +12,7 @@ from sklearn import metrics
 
 
 path = './artificial/'
-name="xclara.arff"
+name="banana.arff"
 
 #path_out = './fig/'
 databrut = arff.loadarff(open(path+str(name), 'r'))
@@ -36,7 +36,6 @@ plt.title("Donnees initiales : "+ str(name))
 plt.show()
 
 
-
 ### FIXER la distance
 # 
 tps1 = time.time()
@@ -58,9 +57,9 @@ print("nb clusters =",k,", nb feuilles = ", leaves, " runtime = ", round((tps2 -
 ###
 # FIXER le nombre de clusters
 ###
-k=4
+k=2
 tps1 = time.time()
-model = cluster.AgglomerativeClustering(linkage='average', n_clusters=k)
+model = cluster.AgglomerativeClustering(linkage='single', n_clusters=k)
 model = model.fit(datanp)
 tps2 = time.time()
 labels = model.labels_
@@ -72,10 +71,55 @@ leaves=model.n_leaves_
 #print(kres)
 
 plt.scatter(f0, f1, c=labels, s=8)
-plt.title("Clustering agglomératif (average, n_cluster= "+str(k)+") "+str(name))
+plt.title("Clustering agglomératif (single, n_cluster= "+str(k)+") "+str(name))
 plt.show()
 print("nb clusters =",kres,", nb feuilles = ", leaves, " runtime = ", round((tps2 - tps1)*1000,2),"ms")
 
+# Clustering agglomératif itératif 
+
+silhouette_score = []
+ti = time.time()
+for i in range(2, 42):
+    model = cluster.AgglomerativeClustering(linkage='ward', n_clusters=i)
+    model.fit(datanp)
+    silhouette_score.append([i, metrics.silhouette_score(datanp, model.labels_)])
+tf= time.time()
+silhouette_score = np.array(silhouette_score)
+
+print("Total time : ", tf - ti)
+
+#plt.figure(figsize=(6, 6))
+plt.title("Evolution du coefficient de silhouette : "+ str(name))
+plt.plot(silhouette_score[:, 0],silhouette_score[:, 1])
+plt.xticks(range(0, 42))
+plt.grid(visible=True)
+#plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-cluster.jpg",bbox_inches='tight', pad_inches=0.1)
+plt.show()
 
 
-#######################################################################
+from sklearn.metrics.pairwise import pairwise_distances
+from sklearn.metrics.pairwise import euclidean_distances
+import numpy as np
+
+# Cluster (centroids)
+unique_labels = np.unique(labels)
+centroids = np.array([np.mean(datanp[labels == label], axis=0) for label in unique_labels])
+
+clusters_distances = pairwise_distances(datanp, centroids)
+
+print("Séparation des centres")
+for i, centroid in enumerate(centroids):
+	cluster_distances = clusters_distances[labels == unique_labels[i], i]
+	print("Cluster ", i, " :")
+	print("Min : ", np.min(cluster_distances))
+	print("Max : ", np.max(cluster_distances))
+	print("Mean : ", np.mean(cluster_distances))
+	print()
+
+dists = euclidean_distances(centroids)
+
+print("Séparation des centres")
+print("Min : ", np.min(dists[dists > 0]))
+print("Max : ", np.max(dists))
+print("Mean : ", np.mean(dists[dists > 0]))
+print()
