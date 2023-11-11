@@ -41,4 +41,4 @@ cd INSA_Clustering
 python script_souhaite.py
 ```
 
-# N'oubliez pas d'installer les dépendances nécessaires en utilisant le gestionnaire de paquets de votre choix (pip, conda, etc.).
+N'oubliez pas d'installer les dépendances nécessaires en utilisant le gestionnaire de paquets de votre choix (pip, conda, etc.).
