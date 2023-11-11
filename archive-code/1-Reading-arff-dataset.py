@@ -24,7 +24,7 @@ from scipy.io import arff
 
 
 path = './artificial/'
-name="chainlink.arff"
+name="s-set2.arff"
 #path_out = './fig/'
 
 databrut = arff.loadarff(open(path+str(name), 'r'))

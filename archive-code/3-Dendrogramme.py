@@ -37,7 +37,6 @@ plt.title("Donnees initiales : "+ str(name))
 #plt.savefig(path_out+"Plot-kmeans-code1-"+str(name)+"-init.jpg",bbox_inches='tight', pad_inches=0.1)
 plt.show()
 
-"""
 #################################################
 from scipy.cluster.hierarchy import dendrogram
 
@@ -74,9 +73,7 @@ plt.title("Hierarchical Clustering Dendrogram")
 plot_dendrogram(model) #, truncate_mode="level", p=5)
 plt.xlabel("Number of points in node (or index of point if no parenthesis).")
 plt.show()
-"""
 
-"""
 ### FIXER la distance
 # 
 tps1 = time.time()
@@ -94,7 +91,6 @@ plt.title("Clustering agglomératif (average, distance_treshold= "+str(seuil_dis
 plt.show()
 print("nb clusters =",k,", nb feuilles = ", leaves, " runtime = ", round((tps2 - tps1)*1000,2),"ms")
 
-"""
 ###
 # FIXER le nombre de clusters
 ###
